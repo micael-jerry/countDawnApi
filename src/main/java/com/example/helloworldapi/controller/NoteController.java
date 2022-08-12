@@ -22,7 +22,7 @@ public class NoteController {
             @RequestParam("page") int page,
             @RequestParam("size") int size
     ) {
-        return noteRepository.findAll(PageRequest.of(page,size)).toList();
+        return noteRepository.findAll(PageRequest.of(page, size)).toList();
     }
 
     @PostMapping(value = "")
@@ -33,13 +33,20 @@ public class NoteController {
     }
 
     @PutMapping(value = "/updateAvg")
-    public List<Note> updateMoyenne() {
+    public List<Note> updateAvg() {
         List<Note> oldListNote = noteRepository.findAll();
         for (Note oldNote : oldListNote) {
             Note note = NoteService.moyenne(oldNote);
             noteRepository.save(note);
         }
         return noteRepository.findAll();
+    }
+
+    @PutMapping(value = "/update/{id}")
+    public Note updateNote(@PathVariable int id, @RequestBody Note note) {
+        Note newNote = NoteService.updateNote(noteRepository.findById(id).get(), note);
+        noteRepository.save(newNote);
+        return newNote;
     }
 
     @GetMapping(value = "/stats")

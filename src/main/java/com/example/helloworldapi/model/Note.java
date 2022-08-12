@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @ToString
 @Entity
 @Table(name = "notes")
@@ -29,4 +28,11 @@ public class Note {
     private float frsAvg;
     @Column(name = "general_avg")
     private float generalAvg;
+
+    public Note() {
+        this.mathContest = -1;
+        this.frsContest = -1;
+        this.mathTOB = -1;
+        this.frsTOB = -1;
+    }
 }

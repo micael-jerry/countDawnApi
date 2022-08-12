@@ -32,19 +32,22 @@ public class CandidatNoteController {
     }
 
     @PostMapping(value = "")
-    public CandidateNote createCandidatNote(@RequestBody CandidateNote candidateNote) {
-        Candidate candidate = candidateRepository.save(candidateNote.getCandidate());
+    public CandidateNote createCandidateNote(@RequestBody CandidateNote candidateNote) {
+        Candidate candidateRequestBody = candidateRepository.save(candidateNote.getCandidate());
         Note noteRequestBody = NoteService.moyenne(candidateNote.getNote());
         Note note = noteRepository.save(noteRequestBody);
-        CandidateNote newCandidatNote = new CandidateNote();
-        newCandidatNote.setCandidate(candidate);
-        newCandidatNote.setNote(note);
+        CandidateNote newCandidateNote = new CandidateNote();
+        newCandidateNote.setCandidate(candidateRequestBody);
+        newCandidateNote.setNote(note);
         candidateNoteRepository.save(candidateNote);
         return candidateNote;
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteCandidatNote(@PathVariable int id) {
+    public void deleteCandidateNote(@PathVariable int id) {
+        CandidateNote candidateNote = candidateNoteRepository.findById(id).get();
+        candidateRepository.deleteById(candidateNote.getCandidate().getId());
+        noteRepository.deleteById(candidateNote.getNote().getId());
         candidateNoteRepository.deleteById(id);
     }
 
