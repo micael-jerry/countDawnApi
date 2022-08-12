@@ -12,15 +12,16 @@ import java.util.List;
 public class CandidatNoteController {
     @Autowired
     private CandidatNoteRepository candidatNoteRepository;
+
     @GetMapping(value = "")
-    public List<CandidatNote> showAll(){
+    public List<CandidatNote> showAll() {
         return candidatNoteRepository.findAll();
     }
 
     @PostMapping(value = "")
-    public CandidatNote createCandidatNote(@RequestBody CandidatNote candidatNote){
+    public CandidatNote createCandidatNote(@RequestBody CandidatNote candidatNote) {
         candidatNoteRepository.save(candidatNote);
-        return candidatNote
+        return candidatNote;
     }
 
 }
