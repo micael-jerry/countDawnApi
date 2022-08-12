@@ -4,6 +4,7 @@ import com.example.helloworldapi.Service.CandidatService;
 import com.example.helloworldapi.model.Candidat;
 import com.example.helloworldapi.repository.CandidatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +16,11 @@ public class CandidatController {
     private CandidatRepository candidatRepository;
 
     @GetMapping(value = "")
-    public List<Candidat> showAll() {
-        return candidatRepository.findAll();
+    public List<Candidat> showAll(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        return candidatRepository.findAll(PageRequest.of(page, size)).toList();
     }
 
     @PostMapping(value = "")

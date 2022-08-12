@@ -4,6 +4,7 @@ import com.example.helloworldapi.Service.NoteService;
 import com.example.helloworldapi.model.Note;
 import com.example.helloworldapi.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +16,11 @@ public class NoteController {
     private NoteRepository noteRepository;
 
     @GetMapping(value = "")
-    public List<Note> showAll() {
-        return noteRepository.findAll();
+    public List<Note> showAll(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        return noteRepository.findAll(PageRequest.of(page,size)).toList();
     }
 
     @PostMapping(value = "")

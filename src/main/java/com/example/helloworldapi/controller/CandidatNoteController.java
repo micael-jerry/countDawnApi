@@ -8,6 +8,7 @@ import com.example.helloworldapi.repository.CandidatNoteRepository;
 import com.example.helloworldapi.repository.CandidatRepository;
 import com.example.helloworldapi.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,11 @@ public class CandidatNoteController {
     private NoteRepository noteRepository;
 
     @GetMapping(value = "")
-    public List<CandidatNote> showAll() {
-        return candidatNoteRepository.findAll();
+    public List<CandidatNote> showAll(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        return candidatNoteRepository.findAll(PageRequest.of(page, size)).toList();
     }
 
     @PostMapping(value = "")
