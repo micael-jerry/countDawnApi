@@ -50,13 +50,4 @@ public class CandidatNoteController {
         candidatNoteRepository.deleteById(id);
     }
 
-    @GetMapping(value = "/stats")
-    public Stats count() {
-        Stats stats = new Stats();
-        Long count = noteRepository.count();
-        stats.setCount(count);
-        stats.setAverage(CandidatNoteService.average(noteRepository.findAll(), count));
-        return stats;
-    }
-
 }

@@ -1,7 +1,9 @@
 package com.example.helloworldapi.controller;
 
+import com.example.helloworldapi.Service.CandidatNoteService;
 import com.example.helloworldapi.Service.NoteService;
 import com.example.helloworldapi.model.Note;
+import com.example.helloworldapi.model.Stats;
 import com.example.helloworldapi.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -38,5 +40,14 @@ public class NoteController {
             noteRepository.save(note);
         }
         return noteRepository.findAll();
+    }
+
+    @GetMapping(value = "/stats")
+    public Stats count() {
+        Stats stats = new Stats();
+        Long count = noteRepository.count();
+        stats.setCount(count);
+        stats.setAverage(CandidatNoteService.average(noteRepository.findAll(), count));
+        return stats;
     }
 }
