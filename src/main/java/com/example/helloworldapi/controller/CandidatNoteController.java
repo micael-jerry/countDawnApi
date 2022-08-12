@@ -1,9 +1,11 @@
 package com.example.helloworldapi.controller;
 
+import com.example.helloworldapi.Service.CandidatNoteService;
 import com.example.helloworldapi.Service.NoteService;
 import com.example.helloworldapi.model.Candidat;
 import com.example.helloworldapi.model.CandidatNote;
 import com.example.helloworldapi.model.Note;
+import com.example.helloworldapi.model.Stats;
 import com.example.helloworldapi.repository.CandidatNoteRepository;
 import com.example.helloworldapi.repository.CandidatRepository;
 import com.example.helloworldapi.repository.NoteRepository;
@@ -46,6 +48,15 @@ public class CandidatNoteController {
     @DeleteMapping(value = "/{id}")
     public void deleteCandidatNote(@PathVariable int id) {
         candidatNoteRepository.deleteById(id);
+    }
+
+    @GetMapping(value = "/stats")
+    public Stats count() {
+        Stats stats = new Stats();
+        Long count = noteRepository.count();
+        stats.setCount(count);
+        stats.setAverage(CandidatNoteService.average(noteRepository.findAll(), count));
+        return stats;
     }
 
 }
