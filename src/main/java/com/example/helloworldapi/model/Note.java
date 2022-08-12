@@ -23,4 +23,10 @@ public class Note {
     private float mathTOB;
     @Column(name = "frs_tob")
     private float frsTOB;
+    @Column(name = "moyenne_math")
+    private float moyenneMath;
+    @Column(name = "moyenne_frs")
+    private float moyenneFrs;
+    @Column(name = "moyenne_general")
+    private float moyenneGeneral;
 }

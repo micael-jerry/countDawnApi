@@ -29,7 +29,11 @@ public class CandidatNoteController {
     @PostMapping(value = "")
     public CandidatNote createCandidatNote(@RequestBody CandidatNote candidatNote) {
         Candidat candidat = candidatRepository.save(candidatNote.getCandidat());
-        Note note = noteRepository.save(candidatNote.getNote());
+        Note noteRequestBody = candidatNote.getNote();
+        noteRequestBody.setMoyenneFrs((noteRequestBody.getFrsConcours() + noteRequestBody.getFrsTOB()) / 2);
+        noteRequestBody.setMoyenneMath((noteRequestBody.getMathConcours() + noteRequestBody.getMathTOB()) / 2);
+        noteRequestBody.setMoyenneGeneral((noteRequestBody.getMoyenneFrs() + noteRequestBody.getMoyenneMath()) / 2);
+        Note note = noteRepository.save(noteRequestBody);
         CandidatNote newCandidatNote = new CandidatNote();
         newCandidatNote.setCandidat(candidat);
         newCandidatNote.setNote(note);
