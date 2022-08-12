@@ -11,14 +11,14 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Table(name = "candidats")
-public class Candidat {
+public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     @Column(nullable = false, length = 100)
-    private String nom;
-    @Column(length = 150)
-    private String prenom;
+    private String name;
+    @Column(length = 150,name = "first_name")
+    private String firstName;
     @Column(nullable = false)
-    private Boolean bachelier;
+    private Boolean bachelor;
 }

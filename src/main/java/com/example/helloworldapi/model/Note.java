@@ -15,18 +15,18 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
-    @Column(name = "math_concours")
-    private float mathConcours;
-    @Column(name = "frs_concours")
-    private float frsConcours;
+    @Column(name = "math_contest")
+    private float mathContest;
+    @Column(name = "frs_contest")
+    private float frsContest;
     @Column(name = "math_tob")
     private float mathTOB;
     @Column(name = "frs_tob")
     private float frsTOB;
-    @Column(name = "moyenne_math")
-    private float moyenneMath;
-    @Column(name = "moyenne_frs")
-    private float moyenneFrs;
-    @Column(name = "moyenne_general")
-    private float moyenneGeneral;
+    @Column(name = "math_avg")
+    private float mathAvg;
+    @Column(name = "frs_avg")
+    private float frsAvg;
+    @Column(name = "general_avg")
+    private float generalAvg;
 }

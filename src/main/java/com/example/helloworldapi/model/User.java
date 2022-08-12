@@ -16,8 +16,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     @Column(nullable = false,length = 125)
-    private String nom;
-    private String prenom;
+    private String name;
+    private String firstName;
     @Column(nullable = false,length = 100)
-    private String utilisateur;
+    private String userName;
 }

@@ -11,13 +11,13 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Table(name = "candidat_note")
-public class CandidatNote {
+public class CandidateNote {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     @OneToOne
     @JoinColumn(name = "candidat_id")
-    private Candidat candidat;
+    private Candidate candidate;
     @OneToOne
     @JoinColumn(name = "note_id")
     private Note note;

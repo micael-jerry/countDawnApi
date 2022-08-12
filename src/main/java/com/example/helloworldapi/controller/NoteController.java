@@ -32,7 +32,7 @@ public class NoteController {
         return note;
     }
 
-    @PutMapping(value = "/updateMoyenne")
+    @PutMapping(value = "/updateAvg")
     public List<Note> updateMoyenne() {
         List<Note> oldListNote = noteRepository.findAll();
         for (Note oldNote : oldListNote) {

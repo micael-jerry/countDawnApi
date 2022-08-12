@@ -1,18 +1,18 @@
 package com.example.helloworldapi.Service;
 
-import com.example.helloworldapi.model.Candidat;
+import com.example.helloworldapi.model.Candidate;
 
 public class CandidatService {
-    public static Candidat updateCandidat(Candidat oldCandidat,Candidat candidat){
-        Candidat newCandidat = new Candidat();
-        if(candidat.getNom() != null){
-            newCandidat.setNom(candidat.getNom());
+    public static Candidate updateCandidat(Candidate oldCandidat, Candidate candidate){
+        Candidate newCandidat = new Candidate();
+        if(candidate.getName() != null){
+            newCandidat.setName(candidate.getName());
         }
-        if(candidat.getPrenom() != null){
-            newCandidat.setPrenom(candidat.getPrenom());
+        if(candidate.getFirstName() != null){
+            newCandidat.setFirstName(candidate.getFirstName());
         }
-        if(candidat.getBachelier() != null){
-            newCandidat.setBachelier(candidat.getBachelier());
+        if(candidate.getBachelor() != null){
+            newCandidat.setBachelor(candidate.getBachelor());
         }
         return newCandidat;
     }

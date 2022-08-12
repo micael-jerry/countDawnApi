@@ -8,7 +8,7 @@ public class CandidatNoteService {
     public static float average(List<Note> noteList,Long count){
         float countMoyenne = 0;
         for(Note note : noteList){
-            countMoyenne+=note.getMoyenneGeneral();
+            countMoyenne+=note.getGeneralAvg();
         }
         return countMoyenne/count;
     }
