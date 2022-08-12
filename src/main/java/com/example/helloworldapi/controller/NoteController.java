@@ -1,5 +1,6 @@
 package com.example.helloworldapi.controller;
 
+import com.example.helloworldapi.Service.NoteService;
 import com.example.helloworldapi.model.Note;
 import com.example.helloworldapi.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +16,12 @@ public class NoteController {
 
     @GetMapping(value = "")
     public List<Note> showAll() {
-//        List<Note> noteList = noteRepository.findAll();
-//        for (Note note : noteList) {
-//            note.setMoyenneFrs((note.getFrsConcours() + note.getFrsTOB()) / 2);
-//            note.setMoyenneMath((note.getMathConcours() + note.getMathTOB()) / 2);
-//            note.setMoyenneGeneral((note.getMoyenneFrs()+note.getMoyenneMath())/2);
-//        }
         return noteRepository.findAll();
     }
 
     @PostMapping(value = "")
-    public Note createNote(@RequestBody Note note) {
-        note.setMoyenneFrs((note.getFrsConcours() + note.getFrsTOB()) / 2);
-        note.setMoyenneMath((note.getMathConcours() + note.getMathTOB()) / 2);
-        note.setMoyenneGeneral((note.getMoyenneFrs() + note.getMoyenneMath()) / 2);
+    public Note createNote(@RequestBody Note n) {
+        Note note = NoteService.moyenne(n);
         noteRepository.save(note);
         return note;
     }
@@ -37,10 +30,8 @@ public class NoteController {
     public List<Note> updateMoyenne() {
         List<Note> oldListNote = noteRepository.findAll();
         for (Note oldNote : oldListNote) {
-            oldNote.setMoyenneFrs((oldNote.getFrsConcours() + oldNote.getFrsTOB()) / 2);
-            oldNote.setMoyenneMath((oldNote.getMathConcours() + oldNote.getMathTOB()) / 2);
-            oldNote.setMoyenneGeneral((oldNote.getMoyenneFrs() + oldNote.getMoyenneMath()) / 2);
-            noteRepository.save(oldNote);
+            Note note = NoteService.moyenne(oldNote);
+            noteRepository.save(note);
         }
         return noteRepository.findAll();
     }
