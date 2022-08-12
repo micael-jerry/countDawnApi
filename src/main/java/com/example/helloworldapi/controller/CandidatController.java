@@ -29,6 +29,11 @@ public class CandidatController {
         return candidate;
     }
 
+    @GetMapping(value = "/{id}")
+    public Candidate getCandidate(@PathVariable int id){
+        return candidateRepository.findById(id).get();
+    }
+
     @PutMapping(value = "/{id}")
     public Candidate putCandidat(
             @PathVariable int id,

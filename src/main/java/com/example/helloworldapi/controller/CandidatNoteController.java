@@ -43,7 +43,7 @@ public class CandidatNoteController {
         return candidateNote;
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     public void deleteCandidateNote(@PathVariable int id) {
         CandidateNote candidateNote = candidateNoteRepository.findById(id).get();
         candidateRepository.deleteById(candidateNote.getCandidate().getId());

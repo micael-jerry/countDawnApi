@@ -18,6 +18,10 @@ public class User {
     @Column(nullable = false,length = 125)
     private String name;
     private String firstName;
-    @Column(nullable = false,length = 100)
+    @Column(nullable = false,length = 100,name = "user_name")
     private String userName;
+    @Column(nullable = false,length = 250)
+    private String password;
+    @Column(nullable = false)
+    private Boolean admin;
 }
