@@ -35,4 +35,9 @@ public class CandidatController {
         candidatRepository.save(newCandidat);
         return newCandidat;
     }
+
+    @DeleteMapping(value = "/{id}")
+    public void deleteCandidat(@PathVariable int id){
+        candidatRepository.deleteById(id);
+    }
 }

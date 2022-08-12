@@ -37,4 +37,9 @@ public class CandidatNoteController {
         return candidatNote;
     }
 
+    @DeleteMapping(value = "/{id}")
+    public void deleteCandidatNote(@PathVariable int id) {
+        candidatNoteRepository.deleteById(id);
+    }
+
 }
