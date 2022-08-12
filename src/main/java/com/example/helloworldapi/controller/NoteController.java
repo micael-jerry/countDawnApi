@@ -1,6 +1,6 @@
 package com.example.helloworldapi.controller;
 
-import com.example.helloworldapi.Service.CandidatNoteService;
+import com.example.helloworldapi.Service.CandidateNoteService;
 import com.example.helloworldapi.Service.NoteService;
 import com.example.helloworldapi.model.Note;
 import com.example.helloworldapi.model.Stats;
@@ -47,7 +47,7 @@ public class NoteController {
         Stats stats = new Stats();
         Long count = noteRepository.count();
         stats.setCount(count);
-        stats.setAverage(CandidatNoteService.average(noteRepository.findAll(), count));
+        stats.setAverage(CandidateNoteService.average(noteRepository.findAll(), count));
         return stats;
     }
 }

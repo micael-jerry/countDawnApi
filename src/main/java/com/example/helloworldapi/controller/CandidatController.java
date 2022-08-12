@@ -1,6 +1,6 @@
 package com.example.helloworldapi.controller;
 
-import com.example.helloworldapi.Service.CandidatService;
+import com.example.helloworldapi.Service.CandidateService;
 import com.example.helloworldapi.model.Candidate;
 import com.example.helloworldapi.repository.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +34,10 @@ public class CandidatController {
             @PathVariable int id,
             @RequestBody Candidate candidate
     ){
-        Candidate oldCandidat = candidateRepository.findById(id).get();
-        Candidate newCandidat = CandidatService.updateCandidat(oldCandidat,candidate);
-        candidateRepository.save(newCandidat);
-        return newCandidat;
+        Candidate oldCandidate = candidateRepository.findById(id).get();
+        Candidate newCandidate = CandidateService.updateCandidate(oldCandidate,candidate);
+        candidateRepository.save(newCandidate);
+        return newCandidate;
     }
 
     @DeleteMapping(value = "/{id}")
