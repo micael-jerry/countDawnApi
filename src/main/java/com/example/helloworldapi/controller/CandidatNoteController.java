@@ -1,5 +1,6 @@
 package com.example.helloworldapi.controller;
 
+import com.example.helloworldapi.Service.NoteService;
 import com.example.helloworldapi.model.Candidat;
 import com.example.helloworldapi.model.CandidatNote;
 import com.example.helloworldapi.model.Note;
@@ -29,10 +30,7 @@ public class CandidatNoteController {
     @PostMapping(value = "")
     public CandidatNote createCandidatNote(@RequestBody CandidatNote candidatNote) {
         Candidat candidat = candidatRepository.save(candidatNote.getCandidat());
-        Note noteRequestBody = candidatNote.getNote();
-        noteRequestBody.setMoyenneFrs((noteRequestBody.getFrsConcours() + noteRequestBody.getFrsTOB()) / 2);
-        noteRequestBody.setMoyenneMath((noteRequestBody.getMathConcours() + noteRequestBody.getMathTOB()) / 2);
-        noteRequestBody.setMoyenneGeneral((noteRequestBody.getMoyenneFrs() + noteRequestBody.getMoyenneMath()) / 2);
+        Note noteRequestBody = NoteService.moyenne(candidatNote.getNote());
         Note note = noteRepository.save(noteRequestBody);
         CandidatNote newCandidatNote = new CandidatNote();
         newCandidatNote.setCandidat(candidat);
