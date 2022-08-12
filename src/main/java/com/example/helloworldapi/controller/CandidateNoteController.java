@@ -1,9 +1,11 @@
 package com.example.helloworldapi.controller;
 
+import com.example.helloworldapi.Service.CandidateNoteService;
 import com.example.helloworldapi.Service.NoteService;
 import com.example.helloworldapi.model.Candidate;
 import com.example.helloworldapi.model.CandidateNote;
 import com.example.helloworldapi.model.Note;
+import com.example.helloworldapi.model.Status;
 import com.example.helloworldapi.repository.CandidateNoteRepository;
 import com.example.helloworldapi.repository.CandidateRepository;
 import com.example.helloworldapi.repository.NoteRepository;
@@ -15,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/candidates-notes")
-public class CandidatNoteController {
+public class CandidateNoteController {
     @Autowired
     private CandidateNoteRepository candidateNoteRepository;
     @Autowired
@@ -41,6 +43,19 @@ public class CandidatNoteController {
         newCandidateNote.setNote(note);
         candidateNoteRepository.save(candidateNote);
         return candidateNote;
+    }
+
+    @PutMapping(value = "/status")
+    public Status updateStatus(@RequestBody Status status){
+        List<CandidateNote> candidateNoteList = candidateNoteRepository.findAll();
+        List<CandidateNote> newCandidateNoteList = CandidateNoteService.updateStatus(
+                candidateNoteList,
+                status.getAdmitted(),
+                status.getPending(),
+                status.getRecaler()
+        );
+        candidateNoteRepository.saveAll(newCandidateNoteList);
+        return status;
     }
 
     @DeleteMapping(value = "/delete/{id}")

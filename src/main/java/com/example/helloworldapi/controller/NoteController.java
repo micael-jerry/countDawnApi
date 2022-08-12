@@ -54,7 +54,7 @@ public class NoteController {
         Stats stats = new Stats();
         Long count = noteRepository.count();
         stats.setCount(count);
-        stats.setAverage(CandidateNoteService.average(noteRepository.findAll(), count));
+        stats.setAverage(NoteService.average(noteRepository.findAll(), count));
         return stats;
     }
 }

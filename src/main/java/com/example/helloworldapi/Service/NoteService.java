@@ -2,6 +2,8 @@ package com.example.helloworldapi.Service;
 
 import com.example.helloworldapi.model.Note;
 
+import java.util.List;
+
 public class NoteService {
     public static Note moyenne(Note n) {
         Note note = n;
@@ -31,5 +33,13 @@ public class NoteService {
         }
         newNote.setGeneralAvg((note.getFrsAvg() + note.getMathAvg()) / 2);
         return newNote;
+    }
+
+    public static float average(List<Note> noteList, Long count) {
+        float countMoyenne = 0;
+        for (Note note : noteList) {
+            countMoyenne += note.getGeneralAvg();
+        }
+        return countMoyenne / count;
     }
 }
