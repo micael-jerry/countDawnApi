@@ -1,0 +1,55 @@
+nom  prenom  math 	mathBacc 	moyenne 	fr 	frBacc 	   moyenne   	moyenneG
+
+candidat:
+	- id_candidat
+	- nom 
+	- prenom
+	- id_note (id_note)
+	- satus: bachelier (true || false)
+	
+note_concours:
+	- id_note
+	- math
+	- fr
+	- math_ToB (Terminal || Bacc)
+	- fr_ToB (Terminal || Bacc)
+	
+	
+users: 
+	- id
+	- password
+	- role : 
+			- root
+			- sudoers
+			
+## back
+
+- moyenne math
+- moyenne fr
+- moyenne G
+- medianne
+- taux de reussite
+
+/candidats : 
+	- nom
+	- prenom
+	- status
+	- notes (tout les notes)
+
+/stat : 
+	- moyenne math
+	- moyenne fr
+	- moyenne G
+	- medianne
+	- taux de reussite
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
