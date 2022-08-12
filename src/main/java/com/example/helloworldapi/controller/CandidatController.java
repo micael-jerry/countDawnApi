@@ -1,5 +1,6 @@
 package com.example.helloworldapi.controller;
 
+import com.example.helloworldapi.Service.CandidatService;
 import com.example.helloworldapi.model.Candidat;
 import com.example.helloworldapi.repository.CandidatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class CandidatController {
     private CandidatRepository candidatRepository;
 
     @GetMapping(value = "")
-    public List<Candidat> showAll(){
+    public List<Candidat> showAll() {
         return candidatRepository.findAll();
     }
 
@@ -22,5 +23,16 @@ public class CandidatController {
     public Candidat createCandidat(@RequestBody Candidat candidat) {
         candidatRepository.save(candidat);
         return candidat;
+    }
+
+    @PutMapping(value = "/{id}")
+    public Candidat putCandidat(
+            @PathVariable int id,
+            @RequestBody Candidat candidat
+    ){
+        Candidat oldCandidat = candidatRepository.findById(id).get();
+        Candidat newCandidat = CandidatService.updateCandidat(oldCandidat,candidat);
+        candidatRepository.save(newCandidat);
+        return newCandidat;
     }
 }
