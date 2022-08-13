@@ -54,6 +54,7 @@ public class NoteController {
         Long count = noteRepository.count();
         stats.setCount(count);
         stats.setAverage(NoteService.average(noteRepository.findAll(), count));
+        stats.setPourcentage(NoteService.pourcentage(noteRepository.findAll(),count,10));
         return stats;
     }
 }

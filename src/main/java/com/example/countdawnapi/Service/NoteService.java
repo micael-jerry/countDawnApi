@@ -42,4 +42,14 @@ public class NoteService {
         }
         return countMoyenne / count;
     }
+
+    public static float pourcentage(List<Note> noteList, Long count, float minAvg) {
+        float countMoyenne = 0;
+        for (Note note : noteList) {
+            if (note.getGeneralAvg() >= minAvg) {
+                countMoyenne += 1;
+            }
+        }
+        return (countMoyenne / count) * 100;
+    }
 }

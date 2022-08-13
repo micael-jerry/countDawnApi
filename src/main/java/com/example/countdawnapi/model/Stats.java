@@ -10,4 +10,5 @@ import lombok.Setter;
 public class Stats {
     private Long count;
     private float average;
+    private float pourcentage;
 }
