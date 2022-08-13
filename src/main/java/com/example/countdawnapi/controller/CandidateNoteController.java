@@ -51,10 +51,16 @@ public class CandidateNoteController {
 
     @PostMapping(value = "")
     public CandidateNote createCandidateNote(@RequestBody CandidateNote candidateNote) {
+        Status status = statusRepository.findById(1).get();
         Candidate candidateRequestBody = candidateRepository.save(candidateNote.getCandidate());
         Note noteRequestBody = NoteService.moyenne(candidateNote.getNote());
         Note note = noteRepository.save(noteRequestBody);
-        CandidateNote newCandidateNote = new CandidateNote();
+        CandidateNote newCandidateNote = CandidateNoteService.updateStatus(
+                new CandidateNote(),
+                status.getAdmitted(),
+                status.getPending(),
+                status.getRecaler()
+        );
         newCandidateNote.setCandidate(candidateRequestBody);
         newCandidateNote.setNote(note);
         candidateNoteRepository.save(candidateNote);
@@ -84,7 +90,7 @@ public class CandidateNoteController {
         candidateNoteRepository.deleteById(id);
     }
 
-    public void initialStatus(Status newStatus){
+    public void initialStatus(Status newStatus) {
         List<CandidateNote> candidateNoteList = candidateNoteRepository.findAll();
         List<CandidateNote> newCandidateNoteList = CandidateNoteService.updateStatus(
                 candidateNoteList,
