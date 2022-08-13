@@ -25,7 +25,7 @@ public class BasicAuthWebSecurityConfiguration {
         UserDetails user = User
                 .withUsername("root")
                 .password("{noop}root")
-                .roles("ADMIN")
+                .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(user);
     }
