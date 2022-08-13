@@ -69,7 +69,7 @@ public class CandidateNoteController {
                 status.getPending(),
                 status.getRecaler()
         );
-        candidateNoteRepository.save(candidateNote);
+        candidateNoteRepository.save(newCandidateNote);
         return newCandidateNote;
     }
 
