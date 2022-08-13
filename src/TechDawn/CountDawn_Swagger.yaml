@@ -1,0 +1,735 @@
+openapi: 3.0.3
+info:
+  title: Count Dawn
+  version: 1.0.11
+servers:
+  - url: https://countDawn.com
+
+paths:
+  /candidates:
+    get:
+      tags:
+        - Candidates
+      summary: Get all candidate
+      parameters:
+        - name: page
+          in: path
+          schema:
+            type: integer
+          required: true
+        - name: page-size
+          in: path
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        description: candidate's list
+        content:
+          application/json:
+            schema:
+              type: array
+              $ref: '#/components/schemas/Candidates'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Candidates'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Candidate not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Candidates
+      summary: Create new candidate
+      requestBody:
+        description: new candidate
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Candidates'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Candidates'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Candidate not found
+        '405':
+          description: Validation exception
+  /candidates/{id}:
+    get:
+      tags:
+        - Candidates
+      summary: Get specify candidate
+      parameters:
+        - name: id_candidate
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Candidates'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Candidate not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Candidates
+      summary: modifies entirely a specify candidate 
+      parameters:
+        - name: id_candidate
+          in: path
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        description: new candidate
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Candidates'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Candidates'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Candidate not found
+        '405':
+          description: Validation exception   
+    patch:
+      tags:
+        - Candidates
+      summary: modifies partialy a specify candidate 
+      description: | 
+        Possible changes on:
+        * id_candidate: change id
+        * name: change name
+        * first_name: change first_name
+        * bachelor: change status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Candidates'
+            examples:
+              changeName:
+                summary: Change name
+                value:
+                - id_candidate: 1
+                  name: "string"
+              changeStatus:
+                summary: Change status
+                value:
+                - id_candidate: 1
+                  name: "false"
+                  
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Candidates'         
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Candidate not found
+        '405':
+          description: Validation exception  
+    delete:
+      tags:
+        - Candidates
+      summary: Delete  candidate
+      parameters:
+        - name: id_candidate
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK        
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Candidate not found
+  /notes:
+    get:
+      tags:
+        - Notes
+      summary: Get all note
+      parameters:
+        - name: page
+          in: path
+          schema:
+            type: integer
+          required: true
+        - name: page-size
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Notes
+      summary: Create new note
+      requestBody:
+        description: new note
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notes'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Candidate not found
+        '405':
+          description: Validation exception
+  /note/{id}:
+    get:
+      tags:
+        - Notes
+      summary: Get specify note
+      parameters:
+        - name: id_note
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '405':
+          description: Validation exception
+    put:
+      tags:
+        - Notes
+      summary: modifies entirely a specify note
+      parameters:
+        - name: id_note
+          in: path
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        description: note
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notes'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '405':
+          description: Validation exception   
+    patch:
+      tags:
+        - Notes
+      summary: modifies partialy a specify note
+      description: | 
+        Possible changes on:
+        * id_note: change id
+        * MathConcours: change note Math
+        * FrenchConcours: change note French
+        * MathBacc: change note MathBacc
+        * FrenchBacc : change note FrenchBacc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Notes'
+            examples:
+              changeMathConcours:
+                summary: Change note MathConcours
+                value:
+                - id_note: 1
+                  MathConcours: 15
+              changeFrenchConcours:
+                summary: Change note FrenchConcours
+                value:
+                - id_note: 2
+                  FrenchConcours: 12
+              changeFrenchBacc:
+                summary: Change note FrenchBacc
+                value:
+                - id_note: 1
+                  FrenchConcours: 14
+              changeMathBacc:
+                summary: Change note MathchBacc
+                value:
+                - id_note: 2
+                  FrenchConcours: 19
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notes'         
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+        '405':
+          description: Validation exception  
+    delete:
+      tags:
+        - Notes
+      summary: Delete  note
+      parameters:
+        - name: id_note
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK        
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Note not found
+  /user:
+    get:
+      tags:
+        - Users
+      summary: Get all User
+      parameters: 
+        - name: page
+          in: path
+          schema:
+            type: integer
+          required: true
+        - name: page-size
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - Users
+      summary: Create new user
+      requestBody:
+        description: new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'          
+        '400':
+          description: Invalid user supplied
+        '404':
+          description: User not found
+        '405':
+          description: Validation exception
+  /user/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get user by id_user
+      operationId: getUserById
+      parameters:
+        - name: id_user
+          in: path
+          required: true
+          schema: 
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'          
+        '400':
+          description: Invalid ID supplied
+    put:
+      tags:
+        - Users
+      summary: modifies entirely user by id
+      parameters:
+        - name: id_user
+          in: path
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        description: note
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'          
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        '405':
+          description: Validation exception   
+    patch:
+      tags:
+        - Users
+      summary: modifies partialy a specify user
+      description: | 
+        Possible changes on:
+        * name: change name
+        * password: change password
+        * role: change role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Users'
+            examples:
+              changeName:
+                summary: Change user's name
+                value:
+                - id_user: 1
+                  name: "string"
+              changePassword:
+                summary: Change user's password
+                value:
+                - id_user: 1
+                  password: "string"
+              changeRole:
+                summary: Change note Role
+                value:
+                - id_user: 1
+                  role: SimpleUser
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notes'         
+           
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found
+        '405':
+          description: Validation exception  
+    delete:
+      tags:
+        - Users
+      summary: Delete user
+      parameters:
+        - name: id_user
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK        
+  /candidateNote:
+    get:
+      tags:
+        - CandidateNote
+      summary: Get all CandidateNote
+      parameters: 
+        - name: page
+          in: path
+          schema:
+            type: integer
+          required: true
+        - name: page-size
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CandidateNote'          
+           
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - CandidateNote
+      summary: Create new candidateNote
+      requestBody:
+        description: new candidateNote
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CandidateNote'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CandidateNote'          
+           
+        '400':
+          description: Invalid 
+  /candidateNote/{id}:
+    get:
+      tags:
+        - CandidateNote
+      summary: Get specify CandidateNote
+      parameters: 
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CandidateNote'          
+           
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+    delete:
+      tags:
+        - CandidateNote
+      summary: Delete note's candidate
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK   
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Receive password & username
+      requestBody:
+        description: Receive password & username
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'          
+        '400':
+          description: Bad request
+        '403':
+          description: Forbidden
+        
+components:
+  schemas:
+    Candidates:
+      type: object
+      properties:
+        id_candidate:
+          type: integer
+          example: 1
+        lastName:
+          type: string
+          example: Rakoto
+        firstName: 
+          type: string
+          example: Rakoto
+        bachelor:
+          type: string
+          default: true
+          enum:
+            - true
+            - false
+    Notes:
+      type: object
+      properties:
+        id_note:
+          type: integer
+          example: 1
+        MathConcours:
+          type: integer
+          example: 12
+        FrenchConcours:
+          type: integer
+          example: 13
+        MathBacc: 
+          type: integer
+          example: 17
+        FrenchBacc:
+          type: integer
+          example: 12
+    Users:
+      type: object
+      properties:
+        id_user:
+          type: integer
+          example: 1
+        lastName: 
+          type: string
+          example: "String"
+        firstName: 
+          type: string
+          example: "String"
+        password:
+          type: string
+          example: "string1234"
+        Role:
+          type: string
+          enum:
+            - Admin
+            - SimpleUser
+    CandidateNote:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        candidate: 
+          allOf:
+            - $ref: '#/components/schemas/Candidates'   
+        note:
+          allOf:
+            - $ref: '#/components/schemas/Notes'   
+    Login: 
+      type: object
+      properties:
+        username : 
+          type : string
+          example: "string"
+        password : 
+          type: string
+          example : "string"
+      
+
+
+        
+   
