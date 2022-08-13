@@ -2,9 +2,11 @@ package com.example.countdawnapi.controller;
 
 import com.example.countdawnapi.Service.CandidateNoteService;
 import com.example.countdawnapi.Service.NoteService;
+import com.example.countdawnapi.Service.StatusService;
 import com.example.countdawnapi.model.Candidate;
 import com.example.countdawnapi.model.CandidateNote;
 import com.example.countdawnapi.model.Status;
+import com.example.countdawnapi.repository.StatusRepository;
 import com.example.countdawnapi.repository.CandidateNoteRepository;
 import com.example.countdawnapi.repository.CandidateRepository;
 import com.example.countdawnapi.repository.NoteRepository;
@@ -24,6 +26,8 @@ public class CandidateNoteController {
     private CandidateRepository candidateRepository;
     @Autowired
     private NoteRepository noteRepository;
+    @Autowired
+    private StatusRepository statusRepository;
 
     @GetMapping(value = "")
     public List<CandidateNote> showAll(
@@ -50,13 +54,21 @@ public class CandidateNoteController {
     }
 
     @PutMapping(value = "/status")
-    public Status updateStatus(@RequestBody Status status) {
+    public Status updateStatus(@RequestBody(required = false) Status status) {
+        if (status == null) {
+            status = new Status();
+            status.setAdmitted(10);
+            status.setPending(8);
+            status.setRecaler(6);
+        }
+        Status newStatus = StatusService.updateStatus(statusRepository.findById(1).get(), status);
+        statusRepository.save(newStatus);
         List<CandidateNote> candidateNoteList = candidateNoteRepository.findAll();
         List<CandidateNote> newCandidateNoteList = CandidateNoteService.updateStatus(
                 candidateNoteList,
-                status.getAdmitted(),
-                status.getPending(),
-                status.getRecaler()
+                newStatus.getAdmitted(),
+                newStatus.getPending(),
+                newStatus.getRecaler()
         );
         candidateNoteRepository.saveAll(newCandidateNoteList);
         return status;
