@@ -28,8 +28,12 @@ public class CandidateNoteController {
     @GetMapping(value = "")
     public List<CandidateNote> showAll(
             @RequestParam("page") int page,
-            @RequestParam("size") int size
+            @RequestParam("size") int size,
+            @RequestParam(name = "status", required = false) String status
     ) {
+        if (status != null) {
+            return candidateNoteRepository.findAllByStatus(status);
+        }
         return candidateNoteRepository.findAll(PageRequest.of(page, size)).toList();
     }
 
@@ -46,7 +50,7 @@ public class CandidateNoteController {
     }
 
     @PutMapping(value = "/status")
-    public Status updateStatus(@RequestBody Status status){
+    public Status updateStatus(@RequestBody Status status) {
         List<CandidateNote> candidateNoteList = candidateNoteRepository.findAll();
         List<CandidateNote> newCandidateNoteList = CandidateNoteService.updateStatus(
                 candidateNoteList,
