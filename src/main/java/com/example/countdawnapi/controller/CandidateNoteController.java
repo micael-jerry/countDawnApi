@@ -69,8 +69,11 @@ public class CandidateNoteController {
 
     @PutMapping(value = "/status")
     public Status updateStatus(@RequestBody(required = false) Status status) {
-        Status newStatus = StatusService.updateStatus(statusRepository.findById(1).get(), status);
-        statusRepository.save(newStatus);
+        Status newStatus = statusRepository.findById(1).get();
+        if (status != null) {
+            newStatus = StatusService.updateStatus(statusRepository.findById(1).get(), status);
+            statusRepository.save(newStatus);
+        }
         List<CandidateNote> candidateNoteList = candidateNoteRepository.findAll();
         List<CandidateNote> newCandidateNoteList = CandidateNoteService.updateStatus(
                 candidateNoteList,
@@ -79,7 +82,7 @@ public class CandidateNoteController {
                 newStatus.getRecaler()
         );
         candidateNoteRepository.saveAll(newCandidateNoteList);
-        return status;
+        return newStatus;
     }
 
     @DeleteMapping(value = "/delete/{id}")
