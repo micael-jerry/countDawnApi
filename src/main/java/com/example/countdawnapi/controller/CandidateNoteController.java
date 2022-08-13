@@ -35,6 +35,14 @@ public class CandidateNoteController {
             @RequestParam("size") int size,
             @RequestParam(name = "status", required = false) String status
     ) {
+        if (statusRepository.count() < 1) {
+            Status status1 = new Status();
+            status1.setAdmitted(10);
+            status1.setPending(8);
+            status1.setRecaler(6);
+            statusRepository.save(status1);
+            this.initialStatus(status1);
+        }
         if (status != null) {
             return candidateNoteRepository.findAllByStatus(status);
         }
@@ -55,12 +63,6 @@ public class CandidateNoteController {
 
     @PutMapping(value = "/status")
     public Status updateStatus(@RequestBody(required = false) Status status) {
-        if (status == null) {
-            status = new Status();
-            status.setAdmitted(10);
-            status.setPending(8);
-            status.setRecaler(6);
-        }
         Status newStatus = StatusService.updateStatus(statusRepository.findById(1).get(), status);
         statusRepository.save(newStatus);
         List<CandidateNote> candidateNoteList = candidateNoteRepository.findAll();
@@ -80,6 +82,17 @@ public class CandidateNoteController {
         candidateRepository.deleteById(candidateNote.getCandidate().getId());
         noteRepository.deleteById(candidateNote.getNote().getId());
         candidateNoteRepository.deleteById(id);
+    }
+
+    public void initialStatus(Status newStatus){
+        List<CandidateNote> candidateNoteList = candidateNoteRepository.findAll();
+        List<CandidateNote> newCandidateNoteList = CandidateNoteService.updateStatus(
+                candidateNoteList,
+                newStatus.getAdmitted(),
+                newStatus.getPending(),
+                newStatus.getRecaler()
+        );
+        candidateNoteRepository.saveAll(newCandidateNoteList);
     }
 
 }
