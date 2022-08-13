@@ -53,18 +53,24 @@ public class CandidateNoteController {
     public CandidateNote createCandidateNote(@RequestBody CandidateNote candidateNote) {
         Status status = statusRepository.findById(1).get();
         Candidate candidateRequestBody = candidateRepository.save(candidateNote.getCandidate());
+
         Note noteRequestBody = NoteService.moyenne(candidateNote.getNote());
         Note note = noteRepository.save(noteRequestBody);
-        CandidateNote newCandidateNote = CandidateNoteService.updateStatus(
-                new CandidateNote(),
+
+        CandidateNote newCandidateNote = new CandidateNote();
+
+        newCandidateNote.setCandidate(candidateRequestBody);
+        newCandidateNote.setNote(note);
+
+
+        newCandidateNote = CandidateNoteService.updateStatus(
+                newCandidateNote,
                 status.getAdmitted(),
                 status.getPending(),
                 status.getRecaler()
         );
-        newCandidateNote.setCandidate(candidateRequestBody);
-        newCandidateNote.setNote(note);
         candidateNoteRepository.save(candidateNote);
-        return candidateNote;
+        return newCandidateNote;
     }
 
     @PutMapping(value = "/status")
