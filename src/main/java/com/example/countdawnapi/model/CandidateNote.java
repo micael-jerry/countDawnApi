@@ -21,6 +21,6 @@ public class CandidateNote {
     @OneToOne
     @JoinColumn(name = "note_id")
     private Note note;
-    @Column(length = 20,name = "status")
+    @Transient
     private String status;
 }

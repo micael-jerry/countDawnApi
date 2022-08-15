@@ -16,10 +16,9 @@ public class CandidateNoteController {
     @GetMapping(value = "")
     public List<CandidateNote> showAll(
             @RequestParam("page") int page,
-            @RequestParam("size") int size,
-            @RequestParam(name = "status", required = false) String status
+            @RequestParam("size") int size
     ) {
-        return candidateNoteService.getAllCandidateNote(page, size, status);
+        return candidateNoteService.getAllCandidateNote(page, size);
     }
 
     @PostMapping(value = "")

@@ -25,34 +25,34 @@ public class CandidateNoteService {
     private CandidateRepository candidateRepository;
     private NoteRepository noteRepository;
 
-    public List<CandidateNote> getAllCandidateNote(int page, int size, String status) {
+    public List<CandidateNote> getAllCandidateNote(int page, int size) {
         if (statusRepository.count() < 1) {
             Status status1 = new Status();
-            status1.setAdmitted(10);
-            status1.setPending(8);
-            status1.setRecaler(6);
             statusService.createStatus(status1);
             statusService.initialStatus(status1);
         }
-        if (status != null) {
-            return candidateNoteRepository.findAllByStatus(status);
-        }
-        return candidateNoteRepository.findAll(PageRequest.of(page, size)).toList();
+        return updateStatus(
+                averageInCandidateNote(candidateNoteRepository.findAll(PageRequest.of(page, size)).toList()),
+                statusService.getStatus().getAdmitted(),
+                statusService.getStatus().getPending(),
+                statusService.getStatus().getRecaler()
+        );
     }
 
     public CandidateNote postCandidateNote(CandidateNote candidateNote) {
         Candidate candidateRequestBody = candidateRepository.save(candidateNote.getCandidate());
-
         Note noteRequestBody = candidateNote.getNote();
         Note note = noteRepository.save(noteRequestBody);
-
         CandidateNote newCandidateNote = new CandidateNote();
-
         newCandidateNote.setCandidate(candidateRequestBody);
         newCandidateNote.setNote(note);
-
         candidateNoteRepository.save(newCandidateNote);
-        return newCandidateNote;
+        return updateStatus(
+                averageInCandidateNote(newCandidateNote),
+                statusService.getStatus().getAdmitted(),
+                statusService.getStatus().getPending(),
+                statusService.getStatus().getRecaler()
+        );
     }
 
     public void deleteCandidateNoteById(int id) {
@@ -60,6 +60,22 @@ public class CandidateNoteService {
         candidateRepository.deleteById(candidateNote.getCandidate().getId());
         noteRepository.deleteById(candidateNote.getNote().getId());
         candidateNoteRepository.deleteById(id);
+    }
+
+    public List<CandidateNote> averageInCandidateNote(List<CandidateNote> candidateNoteList) {
+        List<CandidateNote> candidateNoteList1 = new ArrayList<>();
+        for (CandidateNote candidateNote : candidateNoteList) {
+            Note note = NoteService.average(candidateNote.getNote());
+            candidateNote.setNote(note);
+            candidateNoteList1.add(candidateNote);
+        }
+        return candidateNoteList1;
+    }
+
+    public CandidateNote averageInCandidateNote(CandidateNote candidateNote) {
+        Note note = NoteService.average(candidateNote.getNote());
+        candidateNote.setNote(note);
+        return candidateNote;
     }
 
     public static List<CandidateNote> updateStatus(List<CandidateNote> candidateNoteList, float admitted, float pending, float recaler) {
@@ -74,5 +90,16 @@ public class CandidateNoteService {
             }
         }
         return newList;
+    }
+
+    public static CandidateNote updateStatus(CandidateNote candidateNote, float admitted, float pending, float recaler) {
+        if (candidateNote.getNote().getGeneralAvg() >= admitted) {
+            candidateNote.setStatus("admitted");
+        } else if (candidateNote.getNote().getGeneralAvg() <= admitted && candidateNote.getNote().getGeneralAvg() >= pending) {
+            candidateNote.setStatus("pending");
+        } else {
+            candidateNote.setStatus("recaler");
+        }
+        return candidateNote;
     }
 }
