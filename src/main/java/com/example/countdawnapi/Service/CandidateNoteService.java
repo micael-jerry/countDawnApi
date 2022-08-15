@@ -29,7 +29,6 @@ public class CandidateNoteService {
         if (statusRepository.count() < 1) {
             Status status1 = new Status();
             statusService.createStatus(status1);
-            statusService.initialStatus(status1);
         }
         return updateStatus(
                 averageInCandidateNote(candidateNoteRepository.findAll(PageRequest.of(page, size)).toList()),
