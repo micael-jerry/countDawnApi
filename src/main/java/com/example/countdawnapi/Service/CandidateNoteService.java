@@ -63,14 +63,11 @@ public class CandidateNoteService {
         return newCandidateNote;
     }
 
-    public List<CandidateNote> Admitted(List<CandidateNote> candidateNoteList, float minAvg) {
-        List<CandidateNote> admitted = new ArrayList<>();
-        for (CandidateNote candidateNote : candidateNoteList) {
-            if (candidateNote.getNote().getGeneralAvg() >= minAvg) {
-                admitted.add(candidateNote);
-            }
-        }
-        return admitted;
+    public void deleteCandidateNoteById(int id){
+        CandidateNote candidateNote = candidateNoteRepository.findById(id).get();
+        candidateRepository.deleteById(candidateNote.getCandidate().getId());
+        noteRepository.deleteById(candidateNote.getNote().getId());
+        candidateNoteRepository.deleteById(id);
     }
 
     public static List<CandidateNote> updateStatus(List<CandidateNote> candidateNoteList, float admitted, float pending, float recaler) {

@@ -18,14 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping(value = "/candidates-notes")
 public class CandidateNoteController {
-    @Autowired
-    private CandidateNoteRepository candidateNoteRepository;
-    @Autowired
-    private CandidateRepository candidateRepository;
-    @Autowired
-    private NoteRepository noteRepository;
-    @Autowired
-    private StatusRepository statusRepository;
     private CandidateNoteService candidateNoteService;
 
     @GetMapping(value = "")
@@ -44,10 +36,7 @@ public class CandidateNoteController {
 
     @DeleteMapping(value = "/delete/{id}")
     public void deleteCandidateNote(@PathVariable int id) {
-        CandidateNote candidateNote = candidateNoteRepository.findById(id).get();
-        candidateRepository.deleteById(candidateNote.getCandidate().getId());
-        noteRepository.deleteById(candidateNote.getNote().getId());
-        candidateNoteRepository.deleteById(id);
+        candidateNoteService.deleteCandidateNoteById(id);
     }
 
 }
