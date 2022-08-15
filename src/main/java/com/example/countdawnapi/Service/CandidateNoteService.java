@@ -41,10 +41,9 @@ public class CandidateNoteService {
     }
 
     public CandidateNote postCandidateNote(CandidateNote candidateNote) {
-        Status status = statusRepository.findById(1).get();
         Candidate candidateRequestBody = candidateRepository.save(candidateNote.getCandidate());
 
-        Note noteRequestBody = NoteService.averageStat(candidateNote.getNote());
+        Note noteRequestBody = candidateNote.getNote();
         Note note = noteRepository.save(noteRequestBody);
 
         CandidateNote newCandidateNote = new CandidateNote();
@@ -52,18 +51,11 @@ public class CandidateNoteService {
         newCandidateNote.setCandidate(candidateRequestBody);
         newCandidateNote.setNote(note);
 
-
-        newCandidateNote = updateStatus(
-                newCandidateNote,
-                status.getAdmitted(),
-                status.getPending(),
-                status.getRecaler()
-        );
         candidateNoteRepository.save(newCandidateNote);
         return newCandidateNote;
     }
 
-    public void deleteCandidateNoteById(int id){
+    public void deleteCandidateNoteById(int id) {
         CandidateNote candidateNote = candidateNoteRepository.findById(id).get();
         candidateRepository.deleteById(candidateNote.getCandidate().getId());
         noteRepository.deleteById(candidateNote.getNote().getId());
@@ -82,16 +74,5 @@ public class CandidateNoteService {
             }
         }
         return newList;
-    }
-
-    public CandidateNote updateStatus(CandidateNote candidateNote, float admitted, float pending, float recaler) {
-        if (candidateNote.getNote().getGeneralAvg() >= admitted) {
-            candidateNote.setStatus("admitted");
-        } else if (candidateNote.getNote().getGeneralAvg() <= admitted && candidateNote.getNote().getGeneralAvg() >= pending) {
-            candidateNote.setStatus("pending");
-        } else if (candidateNote.getNote().getGeneralAvg() < recaler) {
-            candidateNote.setStatus("recaler");
-        }
-        return candidateNote;
     }
 }

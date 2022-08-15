@@ -29,11 +29,6 @@ public class NoteController {
         return noteService.postNote(n);
     }
 
-    @PutMapping(value = "/updateAvg")
-    public List<Note> updateAvg() {
-        return noteService.updateAvg();
-    }
-
     @PutMapping(value = "/update/{id}")
     public Note updateNote(@PathVariable int id, @RequestBody Note note) {
         return noteService.putNote(id, note);

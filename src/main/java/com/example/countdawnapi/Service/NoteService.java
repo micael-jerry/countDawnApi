@@ -7,33 +7,31 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class NoteService {
     private NoteRepository noteRepository;
+    private StatusService statusService;
 
     public List<Note> getALlNote(int page, int size) {
-        return noteRepository.findAll(PageRequest.of(page, size)).toList();
+        List<Note> noteList = noteRepository.findAll(PageRequest.of(page, size)).toList();
+        List<Note> noteListReturn = new ArrayList<>();
+        for (int i = 0; i < noteList.size(); i++) {
+            Note note = noteList.get(i);
+            noteListReturn.add(average(note));
+        }
+        return noteListReturn;
     }
 
     public Note postNote(Note note) {
-        Note n = averageStat(note);
-        noteRepository.save(n);
-        return n;
+        noteRepository.save(note);
+        return average(note);
     }
 
-    public List<Note> updateAvg() {
-        List<Note> oldListNote = noteRepository.findAll();
-        for (Note oldNote : oldListNote) {
-            Note note = averageStat(oldNote);
-            noteRepository.save(note);
-        }
-        return noteRepository.findAll();
-    }
-
-    public static Note averageStat(Note n) {
+    public static Note average(Note n) {
         Note note = n;
         note.setFrsAvg((note.getFrsContest() + note.getFrsTOB()) / 2);
         note.setMathAvg((note.getMathContest() + note.getMathTOB()) / 2);
@@ -49,10 +47,12 @@ public class NoteService {
 
     public Stats statistic() {
         Stats stats = new Stats();
-        Long count = noteRepository.count();
+        List<Note> noteList = noteRepository.findAll();
+        noteList.replaceAll(NoteService::average);
+        Long count = (long) noteList.size();
         stats.setCount(count);
-        stats.setAverage(averageStat(noteRepository.findAll(), count));
-        stats.setPourcentage(pourcentage(noteRepository.findAll(), count, 10));
+        stats.setAverage(averageStat(noteList, count));
+        stats.setPourcentage(pourcentage(noteList, count, statusService.getStatus().getAdmitted()));
         return stats;
     }
 
@@ -60,39 +60,34 @@ public class NoteService {
         Note newNote = oldNote;
         if (note.getFrsContest() != -1) {
             newNote.setFrsContest(note.getFrsContest());
-            newNote.setFrsAvg((note.getFrsContest() + note.getFrsTOB()) / 2);
         }
         if (note.getMathContest() != -1) {
             newNote.setMathContest(note.getMathContest());
-            newNote.setMathAvg((note.getMathContest() + note.getMathTOB()) / 2);
         }
         if (note.getFrsTOB() != -1) {
             newNote.setFrsTOB(note.getFrsTOB());
-            newNote.setFrsAvg((note.getFrsContest() + note.getFrsTOB()) / 2);
         }
         if (note.getMathTOB() != -1) {
             newNote.setMathTOB(note.getMathTOB());
-            newNote.setMathAvg((note.getMathContest() + note.getMathTOB()) / 2);
         }
-        newNote.setGeneralAvg((note.getFrsAvg() + note.getMathAvg()) / 2);
         return newNote;
     }
 
     public static float averageStat(List<Note> noteList, Long count) {
-        float countMoyenne = 0;
+        float sumAvg = 0;
         for (Note note : noteList) {
-            countMoyenne += note.getGeneralAvg();
+            sumAvg += note.getGeneralAvg();
         }
-        return countMoyenne / count;
+        return sumAvg / count;
     }
 
     public static float pourcentage(List<Note> noteList, Long count, float minAvg) {
-        float countMoyenne = 0;
+        float countAvg = 0;
         for (Note note : noteList) {
             if (note.getGeneralAvg() >= minAvg) {
-                countMoyenne += 1;
+                countAvg += 1;
             }
         }
-        return (countMoyenne / count) * 100;
+        return (countAvg / count) * 100;
     }
 }

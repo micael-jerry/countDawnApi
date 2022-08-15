@@ -22,11 +22,11 @@ public class Note {
     private float mathTOB;
     @Column(name = "frs_tob")
     private float frsTOB;
-    @Column(name = "math_avg")
+    @Transient
     private float mathAvg;
-    @Column(name = "frs_avg")
+    @Transient
     private float frsAvg;
-    @Column(name = "general_avg")
+    @Transient
     private float generalAvg;
 
     public Note() {
