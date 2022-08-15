@@ -20,6 +20,19 @@ public class StatusService {
         statusRepository.save(status);
     }
 
+    public Status getStatus(){
+        try {
+            return statusRepository.findById(1).get();
+        } catch (Exception e) {
+            Status status = new Status();
+            status.setAdmitted(10);
+            status.setPending(8);
+            status.setRecaler(6);
+            statusRepository.save(status);
+            return status;
+        }
+    }
+
     public Status updateAllStatus(Status status) {
         Status newStatus = statusRepository.findById(1).get();
         if (status != null) {

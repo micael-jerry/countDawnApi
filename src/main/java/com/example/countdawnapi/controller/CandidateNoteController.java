@@ -1,15 +1,8 @@
 package com.example.countdawnapi.controller;
 
 import com.example.countdawnapi.Service.CandidateNoteService;
-import com.example.countdawnapi.Service.StatusService;
 import com.example.countdawnapi.model.CandidateNote;
-import com.example.countdawnapi.model.Status;
-import com.example.countdawnapi.repository.StatusRepository;
-import com.example.countdawnapi.repository.CandidateNoteRepository;
-import com.example.countdawnapi.repository.CandidateRepository;
-import com.example.countdawnapi.repository.NoteRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

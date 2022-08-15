@@ -16,12 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/status")
 public class StatusController {
-    private StatusRepository statusRepository;
     private StatusService statusService;
 
     @GetMapping(value = "")
-    public Status getStatus() {
-        return statusRepository.findById(1).get();
+    public Status status() {
+        return statusService.getStatus();
     }
 
     @PutMapping(value = "")

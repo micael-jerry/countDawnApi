@@ -20,8 +20,13 @@ public class LoginService {
 
     public static Map<String, Boolean> login(User user, Login log) {
         Map<String, Boolean> re = new HashMap<>();
-        re.put("log", (user.getPassword().equals(log.getPassword()) && user.getUserName().equals(log.getUserName())));
-        re.put("admin", user.getAdmin());
+        if (user != null) {
+            re.put("log", (user.getPassword().equals(log.getPassword()) && user.getUserName().equals(log.getUserName())));
+            re.put("admin", user.getAdmin());
+        } else {
+            re.put("log", false);
+            re.put("admin", false);
+        }
         return re;
     }
 }
