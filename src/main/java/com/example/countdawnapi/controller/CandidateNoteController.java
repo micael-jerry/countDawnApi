@@ -54,7 +54,7 @@ public class CandidateNoteController {
         Status status = statusRepository.findById(1).get();
         Candidate candidateRequestBody = candidateRepository.save(candidateNote.getCandidate());
 
-        Note noteRequestBody = NoteService.moyenne(candidateNote.getNote());
+        Note noteRequestBody = NoteService.averageStat(candidateNote.getNote());
         Note note = noteRepository.save(noteRequestBody);
 
         CandidateNote newCandidateNote = new CandidateNote();
