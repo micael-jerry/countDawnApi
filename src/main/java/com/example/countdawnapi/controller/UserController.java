@@ -5,6 +5,7 @@ import com.example.countdawnapi.Service.LoginService;
 import com.example.countdawnapi.Service.UserService;
 import com.example.countdawnapi.model.Login;
 import com.example.countdawnapi.model.User;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,35 +13,28 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = "/users")
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
+
     @PostMapping(value = "")
-    public User createUser(@RequestBody User user){
-        userRepository.save(user);
-        return user;
+    public User createUser(@RequestBody User user) {
+        return userService.postUser(user);
     }
 
     @GetMapping(value = "")
-    public List<User> allUsers(){
-        return userRepository.findAll();
-    }
-
-    @PostMapping(value = "/log")
-    public Map<String,Boolean> log(@RequestBody Login log){
-        return LoginService.login(userRepository.findUserByUserNameIsAndPassword(log.getUserName(),log.getPassword()),log);
+    public List<User> allUsers() {
+        return userService.getAllUser();
     }
 
     @PutMapping(value = "/update/{id}")
-    public User updateUser(@PathVariable int id,@RequestBody User user){
-        User newUser = UserService.update(userRepository.findById(id).get(),user);
-        userRepository.save(newUser);
-        return newUser;
+    public User updateUser(@PathVariable int id, @RequestBody User user) {
+        return userService.putUser(id, user);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public void removeUser(@PathVariable int id){
-        userRepository.deleteById(id);
+    public void removeUser(@PathVariable int id) {
+        userService.deleteUserById(id);
     }
 }

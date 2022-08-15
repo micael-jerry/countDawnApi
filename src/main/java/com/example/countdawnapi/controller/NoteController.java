@@ -14,8 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping(value = "/notes")
 public class NoteController {
-    @Autowired
-    private NoteRepository noteRepository;
     private NoteService noteService;
 
     @GetMapping(value = "")
